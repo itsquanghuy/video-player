@@ -7,28 +7,40 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7DB6D8C8285CBBCC000D559D /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB6D8C7285CBBCC000D559D /* Http.m */; };
+		7DB6D8CB285CCA37000D559D /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB6D8CA285CCA37000D559D /* Config.m */; };
+		7DB6D8D0285CCF25000D559D /* JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB6D8CF285CCF25000D559D /* JSON.m */; };
 		7DF4EFB7285B8B7600CFB842 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4EFB6285B8B7600CFB842 /* AppDelegate.m */; };
 		7DF4EFBA285B8B7600CFB842 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4EFB9285B8B7600CFB842 /* SceneDelegate.m */; };
-		7DF4EFBD285B8B7600CFB842 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4EFBC285B8B7600CFB842 /* ViewController.m */; };
 		7DF4EFC0285B8B7600CFB842 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4EFBE285B8B7600CFB842 /* Main.storyboard */; };
 		7DF4EFC2285B8B7700CFB842 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4EFC1285B8B7700CFB842 /* Assets.xcassets */; };
 		7DF4EFC5285B8B7700CFB842 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7DF4EFC3285B8B7700CFB842 /* LaunchScreen.storyboard */; };
 		7DF4EFC8285B8B7700CFB842 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4EFC7285B8B7700CFB842 /* main.m */; };
+		7DF4EFD6285C2F4800CFB842 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4EFD5285C2F4800CFB842 /* ViewController.m */; };
+		7DF4EFDF285C890300CFB842 /* VideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DF4EFDE285C890300CFB842 /* VideoPlayerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7DB6D8C6285CBB6D000D559D /* Http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Http.h; sourceTree = "<group>"; };
+		7DB6D8C7285CBBCC000D559D /* Http.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Http.m; sourceTree = "<group>"; };
+		7DB6D8C9285CCA09000D559D /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
+		7DB6D8CA285CCA37000D559D /* Config.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Config.m; sourceTree = "<group>"; };
+		7DB6D8CE285CCEF9000D559D /* JSON.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		7DB6D8CF285CCF25000D559D /* JSON.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSON.m; sourceTree = "<group>"; };
 		7DF4EFB2285B8B7600CFB842 /* Video Player.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Video Player.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7DF4EFB5285B8B7600CFB842 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		7DF4EFB6285B8B7600CFB842 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7DF4EFB8285B8B7600CFB842 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		7DF4EFB9285B8B7600CFB842 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		7DF4EFBB285B8B7600CFB842 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		7DF4EFBC285B8B7600CFB842 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		7DF4EFBF285B8B7600CFB842 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7DF4EFC1285B8B7700CFB842 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7DF4EFC4285B8B7700CFB842 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7DF4EFC6285B8B7700CFB842 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7DF4EFC7285B8B7700CFB842 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		7DF4EFD4285C2F4800CFB842 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		7DF4EFD5285C2F4800CFB842 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		7DF4EFDD285C890300CFB842 /* VideoPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoPlayerViewController.h; sourceTree = "<group>"; };
+		7DF4EFDE285C890300CFB842 /* VideoPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,6 +54,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7DB6D8CC285CCCFB000D559D /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				7DF4EFD4285C2F4800CFB842 /* ViewController.h */,
+				7DF4EFD5285C2F4800CFB842 /* ViewController.m */,
+				7DF4EFDD285C890300CFB842 /* VideoPlayerViewController.h */,
+				7DF4EFDE285C890300CFB842 /* VideoPlayerViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		7DB6D8CD285CCD0D000D559D /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				7DB6D8C6285CBB6D000D559D /* Http.h */,
+				7DB6D8C7285CBBCC000D559D /* Http.m */,
+				7DB6D8CE285CCEF9000D559D /* JSON.h */,
+				7DB6D8CF285CCF25000D559D /* JSON.m */,
+			);
+			path = Libs;
+			sourceTree = "<group>";
+		};
 		7DF4EFA9285B8B7600CFB842 = {
 			isa = PBXGroup;
 			children = (
@@ -61,17 +95,19 @@
 		7DF4EFB4285B8B7600CFB842 /* Video Player */ = {
 			isa = PBXGroup;
 			children = (
+				7DB6D8CD285CCD0D000D559D /* Libs */,
+				7DB6D8CC285CCCFB000D559D /* Controllers */,
 				7DF4EFB5285B8B7600CFB842 /* AppDelegate.h */,
 				7DF4EFB6285B8B7600CFB842 /* AppDelegate.m */,
 				7DF4EFB8285B8B7600CFB842 /* SceneDelegate.h */,
 				7DF4EFB9285B8B7600CFB842 /* SceneDelegate.m */,
-				7DF4EFBB285B8B7600CFB842 /* ViewController.h */,
-				7DF4EFBC285B8B7600CFB842 /* ViewController.m */,
 				7DF4EFBE285B8B7600CFB842 /* Main.storyboard */,
 				7DF4EFC1285B8B7700CFB842 /* Assets.xcassets */,
 				7DF4EFC3285B8B7700CFB842 /* LaunchScreen.storyboard */,
 				7DF4EFC6285B8B7700CFB842 /* Info.plist */,
 				7DF4EFC7285B8B7700CFB842 /* main.m */,
+				7DB6D8C9285CCA09000D559D /* Config.h */,
+				7DB6D8CA285CCA37000D559D /* Config.m */,
 			);
 			path = "Video Player";
 			sourceTree = "<group>";
@@ -146,10 +182,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7DF4EFBD285B8B7600CFB842 /* ViewController.m in Sources */,
+				7DB6D8CB285CCA37000D559D /* Config.m in Sources */,
+				7DF4EFDF285C890300CFB842 /* VideoPlayerViewController.m in Sources */,
 				7DF4EFB7285B8B7600CFB842 /* AppDelegate.m in Sources */,
+				7DB6D8D0285CCF25000D559D /* JSON.m in Sources */,
 				7DF4EFC8285B8B7700CFB842 /* main.m in Sources */,
+				7DF4EFD6285C2F4800CFB842 /* ViewController.m in Sources */,
 				7DF4EFBA285B8B7600CFB842 /* SceneDelegate.m in Sources */,
+				7DB6D8C8285CBBCC000D559D /* Http.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,6 +340,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -308,7 +349,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vuhuy.Video-Player";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -327,6 +368,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -335,7 +377,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vuhuy.Video-Player";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
