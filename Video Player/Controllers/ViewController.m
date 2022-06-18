@@ -143,7 +143,8 @@
         [player
             seekToTime:targetTime
             toleranceBefore:kCMTimeZero
-            toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
+            toleranceAfter:kCMTimeZero
+            completionHandler:^(BOOL finished) {
                 [player play];
             }
         ];

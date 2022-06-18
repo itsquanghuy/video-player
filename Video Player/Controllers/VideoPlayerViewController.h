@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface VideoPlayerViewController : AVPlayerViewController
 
 @property (strong) NSString *movieId;
+@property (strong) NSTimer *timer;
 
 @end
 

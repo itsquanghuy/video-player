@@ -12,6 +12,7 @@
 @interface Config : NSObject
 
 + (NSString *)baseURL;
++ (NSString *)moviePlaybacksStoreKey;
 
 @end
 
