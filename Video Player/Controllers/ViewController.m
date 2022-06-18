@@ -16,6 +16,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+    [[NSNotificationCenter defaultCenter]
+        addObserver:self
+        selector:@selector(orientationChanged:)
+        name:UIDeviceOrientationDidChangeNotification
+        object:[UIDevice currentDevice]
+    ];
+    
     self.movies = [NSArray new];
     NSString *device_uuid = [[UIDevice currentDevice].identifierForVendor UUIDString];
     
@@ -81,6 +89,15 @@
             }
         }
     ];
+}
+
+- (void)orientationChanged:(NSNotification *)notification {
+    self.tableView.frame = CGRectMake(
+        0,
+        0,
+        self.view.bounds.size.width,
+        self.view.bounds.size.height
+    );
 }
 
 - (void)initTableView {
