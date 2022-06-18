@@ -203,6 +203,14 @@
     cell.detailTextLabel.text = [movie valueForKey:@"description"];
     cell.detailTextLabel.textColor = [UIColor lightGrayColor];
     cell.detailTextLabel.numberOfLines = 3;
+    cell.imageView.image = [UIImage
+        imageWithData:[[NSData alloc]
+            initWithContentsOfURL:[NSURL
+                URLWithString:[NSString
+                    stringWithFormat:@"%@/movies/%@/poster", [Config baseURL], [movie valueForKey:@"uuid"]]
+            ]
+        ]
+    ];
     
     return cell;
 }
