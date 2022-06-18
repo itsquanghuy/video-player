@@ -16,16 +16,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [self.spinner setCenter:CGPointMake(
+    self.loadingSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.loadingSpinner setCenter:CGPointMake(
         self.view.frame.size.width / 2,
         self.view.frame.size.height / 2)
     ];
-    [self.view addSubview:self.spinner];
+    [self.view addSubview:self.loadingSpinner];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.spinner startAnimating];
+            [self.loadingSpinner startAnimating];
         });
         
         [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
@@ -86,7 +86,7 @@
                                 
                                 dispatch_async(dispatch_get_main_queue(), ^{
                                     [self initTableView];
-                                    [self.spinner stopAnimating];
+                                    [self.loadingSpinner stopAnimating];
                                 });
                             } else {
                                 dispatch_async(dispatch_get_main_queue(), ^{
