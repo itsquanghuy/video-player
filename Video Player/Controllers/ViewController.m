@@ -19,10 +19,6 @@
     self.movies = [NSArray new];
     NSString *device_uuid = [[UIDevice currentDevice].identifierForVendor UUIDString];
     
-    NSLog(@"%@", device_uuid);
-    
-    return;
-    
     [Http
         request:[NSString stringWithFormat:@"%@/auth", [Config baseURL]]
         method:@"POST"
@@ -92,13 +88,11 @@
         initWithFrame:CGRectMake(
             0,
             0,
-            self.view.frame.size.width,
-            self.view.frame.size.height
+            self.view.bounds.size.width,
+            self.view.bounds.size.height
         )
         style:UITableViewStylePlain
     ];
-    self.tableView.insetsContentViewsToSafeArea = NO;
-    self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
@@ -110,8 +104,8 @@
         initWithFrame:CGRectMake(
             0,
             0,
-            self.view.frame.size.width,
-            self.view.frame.size.height
+            self.view.bounds.size.width,
+            self.view.bounds.size.height
         )
     ];
     fallbackMessage.text = @"Your device is not supported.";
@@ -127,7 +121,15 @@
 - (void)presentVideoPlayer:(NSString *)movieUUID movieID:(NSString *)movieID currentTime:(Float64)currentTime {
     NSString *movieURLWithString = [NSString stringWithFormat:@"%@/movies/%@", [Config baseURL], movieUUID];
     NSURL *url = [NSURL URLWithString:movieURLWithString];
-    AVAsset *asset = [AVAsset assetWithURL:url];
+    NSMutableDictionary *headers = [NSMutableDictionary dictionary];
+    [headers
+        setValue:[NSString stringWithFormat:@"Bearer %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"access_token"]]
+        forKey:@"Authorization"
+    ];
+    AVURLAsset *asset = [AVURLAsset
+        URLAssetWithURL:url
+        options: @{@"AVURLAssetHTTPHeaderFieldsKey" : headers}
+    ];
     AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithAsset:asset];
     AVPlayer *player = [AVPlayer playerWithPlayerItem:playerItem];
     VideoPlayerViewController *playerVC = [VideoPlayerViewController new];
@@ -152,34 +154,6 @@
     return self.movies.count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 125;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(
-        0,
-        0,
-        self.view.frame.size.width,
-        125
-    )];
-    
-    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(
-        0,
-        0,
-        headerView.frame.size.width,
-        headerView.frame.size.height)
-    ];
-    headerLabel.text = @"My Movies";
-    headerLabel.font = [UIFont systemFontOfSize:32 weight:16];
-    headerLabel.backgroundColor = [UIColor whiteColor];
-    headerLabel.textAlignment = NSTextAlignmentCenter;
-    
-    [headerView addSubview:headerLabel];
-    
-    return headerView;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
@@ -199,10 +173,6 @@
     cell.detailTextLabel.numberOfLines = 3;
     
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

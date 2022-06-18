@@ -20,21 +20,26 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [Http
-        request:[NSString stringWithFormat:@"%@/playbacks/%@/current-time", [Config baseURL], self.movieId]
-        method:@"PUT"
-        headers:[[NSMutableDictionary alloc]
-            initWithDictionary:@{
-                @"Authorization": [NSString stringWithFormat:@"Bearer %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"access_token"]]
-            }
-        ]
-        body:[[NSMutableDictionary alloc]
-            initWithDictionary:@{
-                @"current_time": [NSNumber numberWithInt:CMTimeGetSeconds([self.player currentTime])]
-            }
-        ]
-        completionHandler:nil
-    ];
+    int64_t currentTime = self.player.currentItem.currentTime.value;
+    int32_t timescale = self.player.currentItem.asset.duration.timescale;
+    int64_t seconds = currentTime / timescale;
+    NSLog(@"%lld", seconds);
+    
+//    [Http
+//        request:[NSString stringWithFormat:@"%@/playbacks/%@/current-time", [Config baseURL], self.movieId]
+//        method:@"PUT"
+//        headers:[[NSMutableDictionary alloc]
+//            initWithDictionary:@{
+//                @"Authorization": [NSString stringWithFormat:@"Bearer %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"access_token"]]
+//            }
+//        ]
+//        body:[[NSMutableDictionary alloc]
+//            initWithDictionary:@{
+//                @"current_time": [NSNumber numberWithLongLong:currentTime]
+//            }
+//        ]
+//        completionHandler:nil
+//    ];
 }
 
 @end
