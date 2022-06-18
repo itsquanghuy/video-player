@@ -16,79 +16,93 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    [[NSNotificationCenter defaultCenter]
-        addObserver:self
-        selector:@selector(orientationChanged:)
-        name:UIDeviceOrientationDidChangeNotification
-        object:[UIDevice currentDevice]
+    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.spinner setCenter:CGPointMake(
+        self.view.frame.size.width / 2,
+        self.view.frame.size.height / 2)
     ];
+    [self.view addSubview:self.spinner];
     
-    self.movies = [NSArray new];
-    NSString *device_uuid = [[UIDevice currentDevice].identifierForVendor UUIDString];
-    
-    [Http
-        request:[NSString stringWithFormat:@"%@/auth", [Config baseURL]]
-        method:@"POST"
-        headers:nil
-        body:[[NSMutableDictionary alloc] initWithDictionary:@{@"uuid": device_uuid}]
-        completionHandler:^(
-            NSData * _Nullable data,
-            NSURLResponse * _Nullable response,
-            NSError * _Nullable error) {
-            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-            if ([httpResponse statusCode] == 401) {
-                [self displayFallback];
-                return;
-            }
-            
-            if ([data length] > 0 && error == nil) {
-                NSMutableDictionary *authResults = [JSON decode:data];
-                [[NSUserDefaults standardUserDefaults]
-                    setValue:[authResults valueForKey:@"access_token"]
-                    forKey:@"access_token"
-                ];
-                
-                [Http
-                    request:[NSString stringWithFormat:@"%@/movies?page=1", [Config baseURL]]
-                    method:@"GET"
-                    headers:[[NSMutableDictionary alloc]
-                        initWithDictionary:@{
-                            @"Authorization": [NSString stringWithFormat:@"Bearer %@", [authResults valueForKey:@"access_token"]]
-                        }
-                    ]
-                    body:nil
-                    completionHandler:^(
-                        NSData * _Nullable data,
-                        NSURLResponse * _Nullable response,
-                        NSError * _Nullable error) {
-                        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                        if ([httpResponse statusCode] == 401) {
-                            [self displayFallback];
-                            return;
-                        }
-                        
-                        if ([data length] > 0 && error == nil) {
-                            NSMutableDictionary *movieResults = [JSON decode:data];
-                            self.movies = [movieResults valueForKey:@"items"];
-                            
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [self initTableView];
-                            });
-                        } else {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [self displayFallback];
-                            });
-                        }
-                    }
-                ];
-            } else {
-                dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.spinner startAnimating];
+        });
+        
+        [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+        [[NSNotificationCenter defaultCenter]
+            addObserver:self
+            selector:@selector(orientationChanged:)
+            name:UIDeviceOrientationDidChangeNotification
+            object:[UIDevice currentDevice]
+        ];
+        
+        self.movies = [NSArray new];
+        NSString *device_uuid = [[UIDevice currentDevice].identifierForVendor UUIDString];
+        
+        [Http
+            request:[NSString stringWithFormat:@"%@/auth", [Config baseURL]]
+            method:@"POST"
+            headers:nil
+            body:[[NSMutableDictionary alloc] initWithDictionary:@{@"uuid": device_uuid}]
+            completionHandler:^(
+                NSData * _Nullable data,
+                NSURLResponse * _Nullable response,
+                NSError * _Nullable error) {
+                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                if ([httpResponse statusCode] == 401) {
                     [self displayFallback];
-                });
+                    return;
+                }
+                
+                if ([data length] > 0 && error == nil) {
+                    NSMutableDictionary *authResults = [JSON decode:data];
+                    [[NSUserDefaults standardUserDefaults]
+                        setValue:[authResults valueForKey:@"access_token"]
+                        forKey:@"access_token"
+                    ];
+                    
+                    [Http
+                        request:[NSString stringWithFormat:@"%@/movies?page=1", [Config baseURL]]
+                        method:@"GET"
+                        headers:[[NSMutableDictionary alloc]
+                            initWithDictionary:@{
+                                @"Authorization": [NSString stringWithFormat:@"Bearer %@", [authResults valueForKey:@"access_token"]]
+                            }
+                        ]
+                        body:nil
+                        completionHandler:^(
+                            NSData * _Nullable data,
+                            NSURLResponse * _Nullable response,
+                            NSError * _Nullable error) {
+                            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                            if ([httpResponse statusCode] == 401) {
+                                [self displayFallback];
+                                return;
+                            }
+                            
+                            if ([data length] > 0 && error == nil) {
+                                NSMutableDictionary *movieResults = [JSON decode:data];
+                                self.movies = [movieResults valueForKey:@"items"];
+                                
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    [self initTableView];
+                                    [self.spinner stopAnimating];
+                                });
+                            } else {
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    [self displayFallback];
+                                });
+                            }
+                        }
+                    ];
+                } else {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self displayFallback];
+                    });
+                }
             }
-        }
-    ];
+        ];
+    });
 }
 
 - (void)orientationChanged:(NSNotification *)notification {
