@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D388EEB285F0FDF0056A7D9 /* AuthService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D388EEA285F0FDF0056A7D9 /* AuthService.m */; };
+		7D388EEE285F11B50056A7D9 /* MovieService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D388EED285F11B50056A7D9 /* MovieService.m */; };
+		7D388EF1285F13AD0056A7D9 /* PlaybackService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D388EF0285F13AD0056A7D9 /* PlaybackService.m */; };
 		7DB6D8C8285CBBCC000D559D /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB6D8C7285CBBCC000D559D /* Http.m */; };
 		7DB6D8CB285CCA37000D559D /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB6D8CA285CCA37000D559D /* Config.m */; };
 		7DB6D8D0285CCF25000D559D /* JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB6D8CF285CCF25000D559D /* JSON.m */; };
@@ -21,6 +24,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7D388EE9285F0F8F0056A7D9 /* AuthService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AuthService.h; sourceTree = "<group>"; };
+		7D388EEA285F0FDF0056A7D9 /* AuthService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AuthService.m; sourceTree = "<group>"; };
+		7D388EEC285F11390056A7D9 /* MovieService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MovieService.h; sourceTree = "<group>"; };
+		7D388EED285F11B50056A7D9 /* MovieService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MovieService.m; sourceTree = "<group>"; };
+		7D388EEF285F133D0056A7D9 /* PlaybackService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlaybackService.h; sourceTree = "<group>"; };
+		7D388EF0285F13AD0056A7D9 /* PlaybackService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlaybackService.m; sourceTree = "<group>"; };
 		7DB6D8C6285CBB6D000D559D /* Http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Http.h; sourceTree = "<group>"; };
 		7DB6D8C7285CBBCC000D559D /* Http.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Http.m; sourceTree = "<group>"; };
 		7DB6D8C9285CCA09000D559D /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
@@ -54,6 +63,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7D388EE8285F0F730056A7D9 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				7D388EE9285F0F8F0056A7D9 /* AuthService.h */,
+				7D388EEA285F0FDF0056A7D9 /* AuthService.m */,
+				7D388EEC285F11390056A7D9 /* MovieService.h */,
+				7D388EED285F11B50056A7D9 /* MovieService.m */,
+				7D388EEF285F133D0056A7D9 /* PlaybackService.h */,
+				7D388EF0285F13AD0056A7D9 /* PlaybackService.m */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		7DB6D8CC285CCCFB000D559D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -95,6 +117,7 @@
 		7DF4EFB4285B8B7600CFB842 /* Video Player */ = {
 			isa = PBXGroup;
 			children = (
+				7D388EE8285F0F730056A7D9 /* Services */,
 				7DB6D8CD285CCD0D000D559D /* Libs */,
 				7DB6D8CC285CCCFB000D559D /* Controllers */,
 				7DF4EFB5285B8B7600CFB842 /* AppDelegate.h */,
@@ -182,12 +205,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D388EEE285F11B50056A7D9 /* MovieService.m in Sources */,
+				7D388EF1285F13AD0056A7D9 /* PlaybackService.m in Sources */,
 				7DB6D8CB285CCA37000D559D /* Config.m in Sources */,
 				7DF4EFDF285C890300CFB842 /* VideoPlayerViewController.m in Sources */,
 				7DF4EFB7285B8B7600CFB842 /* AppDelegate.m in Sources */,
 				7DB6D8D0285CCF25000D559D /* JSON.m in Sources */,
 				7DF4EFC8285B8B7700CFB842 /* main.m in Sources */,
 				7DF4EFD6285C2F4800CFB842 /* ViewController.m in Sources */,
+				7D388EEB285F0FDF0056A7D9 /* AuthService.m in Sources */,
 				7DF4EFBA285B8B7600CFB842 /* SceneDelegate.m in Sources */,
 				7DB6D8C8285CBBCC000D559D /* Http.m in Sources */,
 			);

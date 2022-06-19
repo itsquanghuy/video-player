@@ -8,12 +8,13 @@
 #import <AVKit/AVKit.h>
 #import "Http.h"
 #import "Config.h"
+#import "PlaybackService.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoPlayerViewController : AVPlayerViewController
 
-@property (strong) NSString *movieId;
+@property (nonatomic, assign) NSInteger movieId;
 @property (strong) NSTimer *timer;
 
 @end

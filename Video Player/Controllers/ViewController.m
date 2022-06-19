@@ -39,29 +39,34 @@
         ];
         
         self.movies = [NSMutableArray new];
-        NSString *device_uuid = [[UIDevice currentDevice].identifierForVendor UUIDString];
+        NSString *deviceUUID = [[UIDevice currentDevice].identifierForVendor UUIDString];
         
-        [Http
-            request:[NSString stringWithFormat:@"%@/auth", [Config baseURL]]
-            method:@"POST"
-            headers:nil
-            body:[[NSMutableDictionary alloc] initWithDictionary:@{@"uuid": device_uuid}]
+        [AuthService
+            authenticate:deviceUUID
             completionHandler:^(NSMutableDictionary * _Nonnull authJSON) {
                 [[NSUserDefaults standardUserDefaults]
                     setValue:[authJSON valueForKey:@"access_token"]
                     forKey:@"access_token"
                 ];
                 
-                [self getMovieList:^(NSMutableDictionary * _Nonnull moviesJSON) {
-                    self.itemsPerPage = [[moviesJSON valueForKey:@"items_per_page"] longValue];
-                    self.totalItems = [[moviesJSON valueForKey:@"total_items"] longValue];
-                    self.movies = [NSMutableArray arrayWithArray:[moviesJSON valueForKey:@"items"]];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self initTableView];
-                        [self.loadingSpinner stopAnimating];
-                    });
-                }];
+                [MovieService
+                    getMovieListWithPage:self.page
+                    completionHandler:^(NSMutableDictionary * _Nonnull moviesJSON) {
+                        self.itemsPerPage = [[moviesJSON valueForKey:@"items_per_page"] longValue];
+                        self.totalItems = [[moviesJSON valueForKey:@"total_items"] longValue];
+                        self.movies = [NSMutableArray arrayWithArray:[moviesJSON valueForKey:@"items"]];
+                        
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self initTableView];
+                            [self.loadingSpinner stopAnimating];
+                        });
+                    }
+                    errorHandler:^(NSError * _Nullable error) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self displayFallback];
+                        });
+                    }
+                ];
             }
             errorHandler:^(NSError * _Nullable error) {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -116,7 +121,7 @@
     [self.view addSubview:fallbackMessage];
 }
 
-- (void)presentVideoPlayer:(NSString *)movieUUID movieID:(NSString *)movieID currentTime:(Float64)currentTime {
+- (void)presentVideoPlayer:(NSString *)movieUUID movieID:(NSInteger)movieID currentTime:(Float64)currentTime {
     NSString *movieURLWithString = [NSString stringWithFormat:@"%@/movies/%@", [Config baseURL], movieUUID];
     NSURL *url = [NSURL URLWithString:movieURLWithString];
     NSMutableDictionary *headers = [NSMutableDictionary dictionary];
@@ -134,7 +139,7 @@
     playerVC.view.frame = self.view.bounds;
     playerVC.player = player;
     playerVC.showsPlaybackControls = YES;
-    playerVC.movieId = [NSString stringWithFormat:@"%@", movieID];
+    playerVC.movieId = movieID;
     [self presentViewController:playerVC animated:YES completion:^{
         int32_t timescale = player.currentItem.asset.duration.timescale;
         CMTime targetTime = CMTimeMakeWithSeconds(currentTime, timescale);
@@ -147,27 +152,6 @@
             }
         ];
     }];
-}
-
-- (void)getMovieList:(void (^)(NSMutableDictionary * _Nonnull))completionHandler  {
-    [Http
-        request:[NSString stringWithFormat:@"%@/movies?page=%ld", [Config baseURL], self.page]
-        method:@"GET"
-        headers:[[NSMutableDictionary alloc]
-            initWithDictionary:@{
-                @"Authorization": [NSString stringWithFormat:@"Bearer %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"access_token"]]
-            }
-        ]
-        body:nil
-        completionHandler:^(NSMutableDictionary * _Nonnull json) {
-            completionHandler(json);
-        }
-        errorHandler:^(NSError * _Nullable error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self displayFallback];
-            });
-        }
-    ];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -208,14 +192,22 @@
         if (self.itemsPerPage * self.page < self.totalItems) {
             self.page++;
             
-            [self getMovieList:^(NSMutableDictionary * _Nonnull json) {
-                NSArray *movies = (NSArray *)[json valueForKey:@"items"];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    self.movies = [NSMutableArray arrayWithArray:[self.movies arrayByAddingObjectsFromArray:movies]] ;
-                    [self.tableView reloadData];
-                });
-            }];
+            [MovieService
+                getMovieListWithPage:self.page
+                completionHandler:^(NSMutableDictionary * _Nonnull json) {
+                    NSArray *movies = (NSArray *)[json valueForKey:@"items"];
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        self.movies = [NSMutableArray arrayWithArray:[self.movies arrayByAddingObjectsFromArray:movies]] ;
+                        [self.tableView reloadData];
+                    });
+                }
+                errorHandler:^(NSError * _Nullable error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self displayFallback];
+                    });
+                }
+            ];
         }
     }
 }
@@ -223,21 +215,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSMutableDictionary *movie = self.movies[indexPath.row];
     
-    [Http
-        request:[NSString
-            stringWithFormat:@"%@/playbacks/%@/current-time", [Config baseURL], [movie valueForKey:@"id"]]
-        method:@"GET"
-        headers:[[NSMutableDictionary alloc]
-            initWithDictionary:@{
-                @"Authorization": [NSString stringWithFormat:@"Bearer %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"access_token"]]
-            }
-        ]
-        body:nil
+    [PlaybackService
+        getPlaybackWithMovieID:[[movie valueForKey:@"id"] longValue]
         completionHandler:^(NSMutableDictionary * _Nonnull json) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self
                     presentVideoPlayer:[movie valueForKey:@"uuid"]
-                    movieID:[movie valueForKey:@"id"]
+                    movieID:[[movie valueForKey:@"id"] longValue]
                     currentTime:[[NSString stringWithFormat:@"%@", [json valueForKey:@"current_time"]] floatValue]
                 ];
                 [tableView deselectRowAtIndexPath:indexPath animated:YES];

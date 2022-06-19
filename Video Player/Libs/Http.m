@@ -49,8 +49,10 @@
         }
             
         if ([data length] > 0 && error == nil) {
-            NSMutableDictionary *playbackResult = [JSON decode:data];
-            completionHandler(playbackResult);
+            if (completionHandler != nil) {
+                NSMutableDictionary *json = [JSON decode:data];
+                completionHandler(json);
+            }
         } else {
             errorHandler(error);
         }

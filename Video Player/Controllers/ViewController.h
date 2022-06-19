@@ -11,6 +11,9 @@
 #import "Http.h"
 #import "Config.h"
 #import "JSON.h"
+#import "AuthService.h"
+#import "MovieService.h"
+#import "PlaybackService.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -26,19 +26,9 @@
 }
 
 - (void)savePlaybackCurrentTime {
-    [Http
-        request:[NSString stringWithFormat:@"%@/playbacks/%@/current-time", [Config baseURL], self.movieId]
-        method:@"PUT"
-        headers:[[NSMutableDictionary alloc]
-            initWithDictionary:@{
-                @"Authorization": [NSString stringWithFormat:@"Bearer %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"access_token"]]
-            }
-        ]
-        body:[[NSMutableDictionary alloc]
-            initWithDictionary:@{
-                @"current_time": [NSNumber numberWithInt:CMTimeGetSeconds([self.player currentTime])]
-            }
-        ]
+    [PlaybackService
+        updatePlaybackWithMovieID:self.movieId
+        currentTime:[NSNumber numberWithInt:CMTimeGetSeconds([self.player currentTime])]
         completionHandler:nil
         errorHandler:nil
     ];
