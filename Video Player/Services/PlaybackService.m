@@ -10,10 +10,10 @@
 
 @implementation PlaybackService
 
-+ (void)getPlaybackWithMovieID:(NSInteger)movieID completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
++ (void)getPlaybackWithMovieUUID:(NSString * _Nonnull)movieUUID completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
     [Http
         request:[NSString
-            stringWithFormat:@"%@/playbacks/%ld/current-time", [Config baseURL], movieID]
+            stringWithFormat:@"%@/playbacks/%@/current-time", [Config baseURL], movieUUID]
         method:@"GET"
         headers:[[NSMutableDictionary alloc]
             initWithDictionary:@{
@@ -30,9 +30,9 @@
     ];
 }
 
-+ (void)updatePlaybackWithMovieID:(NSInteger)movieID currentTime:(NSNumber * _Nonnull)currentTime completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
++ (void)updatePlaybackWithMovieUUID:(NSString * _Nonnull)movieUUID currentTime:(NSNumber * _Nonnull)currentTime completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
     [Http
-        request:[NSString stringWithFormat:@"%@/playbacks/%ld/current-time", [Config baseURL], movieID]
+        request:[NSString stringWithFormat:@"%@/playbacks/%@/current-time", [Config baseURL], movieUUID]
         method:@"PUT"
         headers:[[NSMutableDictionary alloc]
             initWithDictionary:@{

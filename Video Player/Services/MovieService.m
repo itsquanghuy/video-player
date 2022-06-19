@@ -10,9 +10,28 @@
 
 @implementation MovieService
 
-+ (void)getMovieListWithPage:(NSInteger)page completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
++ (void)getMovieListByPage:(NSInteger)page completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
     [Http
         request:[NSString stringWithFormat:@"%@/movies?page=%ld", [Config baseURL], page]
+        method:@"GET"
+        headers:[[NSMutableDictionary alloc]
+            initWithDictionary:@{
+                @"Authorization": [NSString stringWithFormat:@"Bearer %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"access_token"]]
+            }
+        ]
+        body:nil
+        completionHandler:^(NSMutableDictionary * _Nonnull json) {
+            completionHandler(json);
+        }
+        errorHandler:^(NSError * _Nullable error) {
+            errorHandler(error);
+        }
+    ];
+}
+
++ (void)getMovieSeries:(NSString * _Nonnull)movieUUID completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
+    [Http
+        request:[NSString stringWithFormat:@"%@/movies/%@/series", [Config baseURL], movieUUID]
         method:@"GET"
         headers:[[NSMutableDictionary alloc]
             initWithDictionary:@{

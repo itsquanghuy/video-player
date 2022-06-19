@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoPlayerViewController : AVPlayerViewController
 
-@property (nonatomic, assign) NSInteger movieId;
+@property (nonatomic, assign) NSString * movieUUID;
 @property (strong) NSTimer *timer;
 
 @end

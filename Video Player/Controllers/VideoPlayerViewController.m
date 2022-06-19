@@ -27,7 +27,7 @@
 
 - (void)savePlaybackCurrentTime {
     [PlaybackService
-        updatePlaybackWithMovieID:self.movieId
+        updatePlaybackWithMovieUUID:self.movieUUID
         currentTime:[NSNumber numberWithInt:CMTimeGetSeconds([self.player currentTime])]
         completionHandler:nil
         errorHandler:nil

@@ -13,9 +13,9 @@
 
 @interface PlaybackService : NSObject
 
-+ (void)getPlaybackWithMovieID:(NSInteger)movieID completionHandler:(void (^ _Nullable)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^_Nullable)(NSError * _Nullable))errorHandler;
++ (void)getPlaybackWithMovieUUID:(NSString * _Nonnull)movieUUID completionHandler:(void (^ _Nullable)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^_Nullable)(NSError * _Nullable))errorHandler;
 
-+ (void)updatePlaybackWithMovieID:(NSInteger)movieID currentTime:(NSNumber * _Nonnull)currentTime completionHandler:(void (^ _Nullable)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^_Nullable)(NSError * _Nullable))errorHandler;
++ (void)updatePlaybackWithMovieUUID:(NSString * _Nonnull)movieUUID currentTime:(NSNumber * _Nonnull)currentTime completionHandler:(void (^ _Nullable)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^_Nullable)(NSError * _Nullable))errorHandler;
 
 
 @end

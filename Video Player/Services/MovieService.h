@@ -13,7 +13,9 @@
 
 @interface MovieService : NSObject
 
-+ (void)getMovieListWithPage:(NSInteger)page completionHandler:(void (^ _Nullable)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^_Nullable)(NSError * _Nullable))errorHandler;
++ (void)getMovieListByPage:(NSInteger)page completionHandler:(void (^ _Nullable)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^_Nullable)(NSError * _Nullable))errorHandler;
+
++ (void)getMovieSeries:(NSString * _Nonnull)movieUUID completionHandler:(void (^ _Nullable)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^_Nullable)(NSError * _Nullable))errorHandler;
 
 @end
 

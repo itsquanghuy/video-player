@@ -1,17 +1,17 @@
 //
-//  ViewController.m
+//  ListViewController.m
 //  Video Player
 //
-//  Created by Vu Huy on 17/06/2022.
+//  Created by Vu Huy on 19/06/2022.
 //
 
-#import "ViewController.h"
+#import "ListViewController.h"
 
-@interface ViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface ListViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @end
 
-@implementation ViewController
+@implementation ListViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -50,7 +50,7 @@
                 ];
                 
                 [MovieService
-                    getMovieListWithPage:self.page
+                    getMovieListByPage:self.page
                     completionHandler:^(NSMutableDictionary * _Nonnull moviesJSON) {
                         self.itemsPerPage = [[moviesJSON valueForKey:@"items_per_page"] longValue];
                         self.totalItems = [[moviesJSON valueForKey:@"total_items"] longValue];
@@ -64,6 +64,7 @@
                     errorHandler:^(NSError * _Nullable error) {
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [self displayFallback];
+                            [self.loadingSpinner stopAnimating];
                         });
                     }
                 ];
@@ -121,8 +122,8 @@
     [self.view addSubview:fallbackMessage];
 }
 
-- (void)presentVideoPlayer:(NSString *)movieUUID movieID:(NSInteger)movieID currentTime:(Float64)currentTime {
-    NSString *movieURLWithString = [NSString stringWithFormat:@"%@/movies/%@", [Config baseURL], movieUUID];
+- (void)presentVideoPlayer:(NSString *)movieUUID currentTime:(Float64)currentTime {
+    NSString *movieURLWithString = [NSString stringWithFormat:@"%@/movies/%@/media", [Config baseURL], movieUUID];
     NSURL *url = [NSURL URLWithString:movieURLWithString];
     NSMutableDictionary *headers = [NSMutableDictionary dictionary];
     [headers
@@ -139,7 +140,7 @@
     playerVC.view.frame = self.view.bounds;
     playerVC.player = player;
     playerVC.showsPlaybackControls = YES;
-    playerVC.movieId = movieID;
+    playerVC.movieUUID = movieUUID;
     [self presentViewController:playerVC animated:YES completion:^{
         int32_t timescale = player.currentItem.asset.duration.timescale;
         CMTime targetTime = CMTimeMakeWithSeconds(currentTime, timescale);
@@ -194,7 +195,7 @@
             self.page++;
             
             [MovieService
-                getMovieListWithPage:self.page
+                getMovieListByPage:self.page
                 completionHandler:^(NSMutableDictionary * _Nonnull json) {
                     NSArray *movies = (NSArray *)[json valueForKey:@"items"];
                     
@@ -215,25 +216,38 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSMutableDictionary *movie = self.movies[indexPath.row];
-    
-    [PlaybackService
-        getPlaybackWithMovieID:[[movie valueForKey:@"id"] longValue]
-        completionHandler:^(NSMutableDictionary * _Nonnull json) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self
-                    presentVideoPlayer:[movie valueForKey:@"uuid"]
-                    movieID:[[movie valueForKey:@"id"] longValue]
-                    currentTime:[[NSString stringWithFormat:@"%@", [json valueForKey:@"current_time"]] floatValue]
-                ];
-                [tableView deselectRowAtIndexPath:indexPath animated:YES];
-            });
-        }
-        errorHandler:^(NSError * _Nullable error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self displayFallback];
-            });
-        }
+    MovieModel *movieModel = [[MovieModel alloc]
+        initWithMovieId:[[movie valueForKey:@"id"] longValue]
+        title:[movie valueForKey:@"title"]
+        description:[movie valueForKey:@"description"]
+        uuid:[movie valueForKey:@"uuid"]
+        releaseYear:[[movie valueForKey:@"releaseYear"] longValue]
+        isMovieSeries:[[movie valueForKey:@"is_a_series"] boolValue]
     ];
+    
+    if (movieModel.isMovieSeries) {
+        SeriesViewController *seriesVC = [SeriesViewController new];
+        seriesVC.movieModel = movieModel;
+        [self presentViewController:seriesVC animated:YES completion:nil];
+    } else {
+        [PlaybackService
+            getPlaybackWithMovieUUID:movieModel.movieUUID
+            completionHandler:^(NSMutableDictionary * _Nonnull json) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self
+                        presentVideoPlayer:movieModel.movieUUID
+                        currentTime:[[NSString stringWithFormat:@"%@", [json valueForKey:@"current_time"]] floatValue]
+                    ];
+                    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+                });
+            }
+            errorHandler:^(NSError * _Nullable error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self displayFallback];
+                });
+            }
+        ];
+    }
 }
 
 @end
