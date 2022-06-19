@@ -188,7 +188,8 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == [tableView numberOfRowsInSection:indexPath.section] - 1) {
+    BOOL scrollToBottomDetected = indexPath.section == tableView.numberOfSections - 1 && indexPath.row == [tableView numberOfRowsInSection:indexPath.section] - 1;
+    if (scrollToBottomDetected) {
         if (self.itemsPerPage * self.page < self.totalItems) {
             self.page++;
             
