@@ -8,9 +8,11 @@
 #ifndef Http_h
 #define Http_h
 
+#import "JSON.h"
+
 @interface Http : NSObject
 
-+ (void)request:(NSString * _Nonnull)urlWithString method:(NSString * _Nonnull)method headers:(NSMutableDictionary * _Nullable)headers body:(NSMutableDictionary * _Nullable)body completionHandler:(void (^_Nullable)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error))completionHandler;
++ (void)request:(NSString * _Nonnull)urlWithString method:(NSString * _Nonnull)method headers:(NSMutableDictionary * _Nullable)headers body:(NSMutableDictionary * _Nullable)body completionHandler:(void (^_Nullable)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^_Nullable)(NSError * _Nullable))errorHandler;
 
 @end
 

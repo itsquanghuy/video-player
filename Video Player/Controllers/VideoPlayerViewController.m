@@ -40,6 +40,7 @@
             }
         ]
         completionHandler:nil
+        errorHandler:nil
     ];
 }
 

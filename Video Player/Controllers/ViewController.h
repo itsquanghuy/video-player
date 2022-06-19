@@ -18,7 +18,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) UIActivityIndicatorView *loadingSpinner;
-@property (strong) NSArray *movies;
+@property (strong) NSMutableArray *movies;
+@property (nonatomic, assign) NSInteger page;
+@property (nonatomic, assign) NSInteger itemsPerPage;
+@property (nonatomic, assign) NSInteger totalItems;
 
 @end
 

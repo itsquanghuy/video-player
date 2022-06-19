@@ -10,7 +10,7 @@
 
 @implementation Http
 
-+ (void)request:(NSString *)urlWithString method:(NSString * _Nonnull)method headers:(NSMutableDictionary * _Nullable)headers body:(NSMutableDictionary * _Nullable)body completionHandler:(void (^)(NSData * _Nullable, NSURLResponse * _Nullable, NSError * _Nullable))completionHandler {
++ (void)request:(NSString *)urlWithString method:(NSString * _Nonnull)method headers:(NSMutableDictionary * _Nullable)headers body:(NSMutableDictionary * _Nullable)body completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
     NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     
     NSURL *url = [NSURL URLWithString:urlWithString];
@@ -41,7 +41,20 @@
     if (completionHandler == nil) {
         task = [urlSession dataTaskWithRequest:request];
     }
-    task = [urlSession dataTaskWithRequest:request completionHandler:completionHandler];
+    task = [urlSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        if ([httpResponse statusCode] == 401) {
+            errorHandler(error);
+            return;
+        }
+            
+        if ([data length] > 0 && error == nil) {
+            NSMutableDictionary *playbackResult = [JSON decode:data];
+            completionHandler(playbackResult);
+        } else {
+            errorHandler(error);
+        }
+    }];
     [task resume];
 }
 
