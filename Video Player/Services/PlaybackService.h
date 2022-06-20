@@ -17,6 +17,9 @@
 
 + (void)updatePlaybackWithMovieUUID:(NSString * _Nonnull)movieUUID currentTime:(NSNumber * _Nonnull)currentTime completionHandler:(void (^ _Nullable)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^_Nullable)(NSError * _Nullable))errorHandler;
 
++ (void)getPlaybackWithEpisodeUUID:(NSString * _Nonnull)movieUUID completionHandler:(void (^ _Nullable)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler;
+
++ (void)updatePlaybackWithEpisodeUUID:(NSString * _Nonnull)movieUUID currentTime:(NSNumber * _Nonnull)currentTime completionHandler:(void (^ _Nullable)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler;
 
 @end
 

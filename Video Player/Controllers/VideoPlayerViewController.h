@@ -14,8 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoPlayerViewController : AVPlayerViewController
 
-@property (nonatomic, assign) NSString * movieUUID;
+@property (nonatomic, strong) NSString * movieUUID;
 @property (strong) NSTimer *timer;
+@property (nonatomic, assign) BOOL isMovieSeries;
 
 @end
 

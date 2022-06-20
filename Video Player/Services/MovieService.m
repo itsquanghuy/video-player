@@ -31,7 +31,7 @@
 
 + (void)getMovieSeries:(NSString * _Nonnull)movieUUID completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
     [Http
-        request:[NSString stringWithFormat:@"%@/movies/%@/series", [Config baseURL], movieUUID]
+        request:[NSString stringWithFormat:@"%@/movies/%@/episodes", [Config baseURL], movieUUID]
         method:@"GET"
         headers:[[NSMutableDictionary alloc]
             initWithDictionary:@{

@@ -141,6 +141,7 @@
     playerVC.player = player;
     playerVC.showsPlaybackControls = YES;
     playerVC.movieUUID = movieUUID;
+    playerVC.isMovieSeries = NO;
     [self presentViewController:playerVC animated:YES completion:^{
         int32_t timescale = player.currentItem.asset.duration.timescale;
         CMTime targetTime = CMTimeMakeWithSeconds(currentTime, timescale);

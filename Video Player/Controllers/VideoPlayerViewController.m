@@ -26,12 +26,21 @@
 }
 
 - (void)savePlaybackCurrentTime {
-    [PlaybackService
-        updatePlaybackWithMovieUUID:self.movieUUID
-        currentTime:[NSNumber numberWithInt:CMTimeGetSeconds([self.player currentTime])]
-        completionHandler:nil
-        errorHandler:nil
-    ];
+    if (self.isMovieSeries) {
+        [PlaybackService
+            updatePlaybackWithEpisodeUUID:self.movieUUID
+            currentTime:[NSNumber numberWithInt:CMTimeGetSeconds([self.player currentTime])]
+            completionHandler:nil
+            errorHandler:nil
+        ];
+    } else {
+        [PlaybackService
+            updatePlaybackWithMovieUUID:self.movieUUID
+            currentTime:[NSNumber numberWithInt:CMTimeGetSeconds([self.player currentTime])]
+            completionHandler:nil
+            errorHandler:nil
+        ];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

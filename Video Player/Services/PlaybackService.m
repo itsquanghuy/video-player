@@ -47,4 +47,41 @@
     ];
 }
 
++ (void)getPlaybackWithEpisodeUUID:(NSString * _Nonnull)movieUUID completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
+    [Http
+        request:[NSString
+            stringWithFormat:@"%@/playbacks/episodes/%@/current-time", [Config baseURL], movieUUID]
+        method:@"GET"
+        headers:[[NSMutableDictionary alloc]
+            initWithDictionary:@{
+                @"Authorization": [NSString stringWithFormat:@"Bearer %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"access_token"]]
+            }
+        ]
+        body:nil
+        completionHandler:^(NSMutableDictionary * _Nonnull json) {
+            completionHandler(json);
+        }
+        errorHandler:^(NSError * _Nullable error) {
+            errorHandler(error);
+        }
+    ];
+}
+
++ (void)updatePlaybackWithEpisodeUUID:(NSString * _Nonnull)movieUUID currentTime:(NSNumber * _Nonnull)currentTime completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
+    [Http
+        request:[NSString stringWithFormat:@"%@/playbacks/episodes/%@/current-time", [Config baseURL], movieUUID]
+        method:@"PUT"
+        headers:[[NSMutableDictionary alloc]
+            initWithDictionary:@{
+                @"Authorization": [NSString stringWithFormat:@"Bearer %@", [[NSUserDefaults standardUserDefaults] valueForKey:@"access_token"]]
+            }
+        ]
+        body:[[NSMutableDictionary alloc]
+            initWithDictionary:@{@"current_time": currentTime}
+        ]
+        completionHandler:nil
+        errorHandler:nil
+    ];
+}
+
 @end

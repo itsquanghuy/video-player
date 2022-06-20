@@ -120,6 +120,7 @@
     playerVC.player = player;
     playerVC.showsPlaybackControls = YES;
     playerVC.movieUUID = movieUUID;
+    playerVC.isMovieSeries = YES;
     [self presentViewController:playerVC animated:YES completion:^{
         int32_t timescale = player.currentItem.asset.duration.timescale;
         CMTime targetTime = CMTimeMakeWithSeconds(currentTime, timescale);
@@ -179,12 +180,14 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *episodeUUID = [NSString stringWithFormat:@"s%lde%ld-%@", indexPath.section + 1, indexPath.row + 1, self.movieModel.movieUUID];
+    
     [PlaybackService
-        getPlaybackWithMovieUUID:self.movieModel.movieUUID
+        getPlaybackWithEpisodeUUID:episodeUUID
         completionHandler:^(NSMutableDictionary * _Nonnull json) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self
-                    presentVideoPlayer:self.movieModel.movieUUID
+                    presentVideoPlayer:episodeUUID
                     currentTime:[[NSString stringWithFormat:@"%@", [json valueForKey:@"current_time"]] floatValue]
                 ];
                 [tableView deselectRowAtIndexPath:indexPath animated:YES];
