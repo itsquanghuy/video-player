@@ -40,6 +40,7 @@
             getMovieSeries:self.movieModel.movieUUID
             completionHandler:^(NSMutableDictionary * _Nonnull json) {
                 self.movieSeries = (NSArray *)[json valueForKey:@"series"];
+                self.metadataModel = (NSArray *)[json valueForKey:@"metadata"];
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self initTableView];
@@ -133,30 +134,25 @@
     }];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 75;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return self.metadataModel.count;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 75)];
-    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, headerView.frame.size.width - 15, headerView.frame.size.height)];
-    
-    headerLabel.text = self.movieModel.movieTitle;
-    headerLabel.font = [UIFont systemFontOfSize:28 weight:16];
-    
-    [headerView addSubview:headerLabel];
-    
-    return headerView;
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [NSString stringWithFormat:@"Season %@", [self.metadataModel[section] valueForKey:@"season"]];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.movieSeries.count;
+    return [[self.metadataModel[section] valueForKey:@"number_of_episodes"] longValue];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    NSMutableDictionary *episode = self.movieSeries[indexPath.row];
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable episode, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [[episode valueForKey:@"uuid"] isEqual:[NSString stringWithFormat:@"s%lde%ld-%@", indexPath.section + 1, indexPath.row + 1, self.movieModel.movieUUID]];
+    }];
+    NSMutableDictionary *episode = [self.movieSeries filteredArrayUsingPredicate:predicate][0];
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc]

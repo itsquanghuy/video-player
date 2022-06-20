@@ -10,6 +10,7 @@
 #import "MovieService.h"
 #import "PlaybackService.h"
 #import "MovieModel.h"
+#import "MovieSeriesMetadataModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) UIActivityIndicatorView *loadingSpinner;
 @property (strong, nonatomic) MovieModel *movieModel;
+@property (strong, nonatomic) NSArray *metadataModel;
 @property (strong, nonatomic) NSArray *movieSeries;
 
 @end
