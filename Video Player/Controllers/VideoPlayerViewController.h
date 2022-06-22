@@ -7,7 +7,6 @@
 
 #import <AVKit/AVKit.h>
 #import "Http.h"
-#import "Config.h"
 #import "PlaybackService.h"
 
 NS_ASSUME_NONNULL_BEGIN

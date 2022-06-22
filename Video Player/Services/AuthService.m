@@ -11,8 +11,9 @@
 @implementation AuthService
 
 + (void)authenticate:(NSString *)deviceUUID completionHandler:(void (^ _Nullable)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^_Nullable)(NSError * _Nullable))errorHandler {
+    Config *config = [Config getInstance];
     [Http
-        request:[NSString stringWithFormat:@"%@/auth", [Config baseURL]]
+        request:[NSString stringWithFormat:@"%@/auth", config.baseURL]
         method:@"POST"
         headers:nil
         body:[[NSMutableDictionary alloc] initWithDictionary:@{@"uuid": deviceUUID}]

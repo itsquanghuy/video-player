@@ -14,6 +14,7 @@
 		7D572B87285F72EB00C19581 /* MovieModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D572B86285F72EB00C19581 /* MovieModel.m */; };
 		7D572B8A285FA66800C19581 /* SeriesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D572B89285FA66800C19581 /* SeriesViewController.m */; };
 		7D572B912860360700C19581 /* MovieSeriesMetadataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D572B902860360700C19581 /* MovieSeriesMetadataModel.m */; };
+		7D8A1CA72863236D0024736A /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D8A1CA62863236D0024736A /* RootViewController.m */; };
 		7DB6D8C8285CBBCC000D559D /* Http.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB6D8C7285CBBCC000D559D /* Http.m */; };
 		7DB6D8CB285CCA37000D559D /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB6D8CA285CCA37000D559D /* Config.m */; };
 		7DB6D8D0285CCF25000D559D /* JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DB6D8CF285CCF25000D559D /* JSON.m */; };
@@ -41,6 +42,8 @@
 		7D572B89285FA66800C19581 /* SeriesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SeriesViewController.m; sourceTree = "<group>"; };
 		7D572B8F286035BE00C19581 /* MovieSeriesMetadataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MovieSeriesMetadataModel.h; sourceTree = "<group>"; };
 		7D572B902860360700C19581 /* MovieSeriesMetadataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MovieSeriesMetadataModel.m; sourceTree = "<group>"; };
+		7D8A1CA52863236D0024736A /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		7D8A1CA62863236D0024736A /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		7DB6D8C6285CBB6D000D559D /* Http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Http.h; sourceTree = "<group>"; };
 		7DB6D8C7285CBBCC000D559D /* Http.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Http.m; sourceTree = "<group>"; };
 		7DB6D8C9285CCA09000D559D /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 				7D572B82285F706B00C19581 /* ListViewController.m */,
 				7D572B88285FA66800C19581 /* SeriesViewController.h */,
 				7D572B89285FA66800C19581 /* SeriesViewController.m */,
+				7D8A1CA52863236D0024736A /* RootViewController.h */,
+				7D8A1CA62863236D0024736A /* RootViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -242,6 +247,7 @@
 				7D572B83285F706B00C19581 /* ListViewController.m in Sources */,
 				7DF4EFBA285B8B7600CFB842 /* SceneDelegate.m in Sources */,
 				7DB6D8C8285CBBCC000D559D /* Http.m in Sources */,
+				7D8A1CA72863236D0024736A /* RootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

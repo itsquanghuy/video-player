@@ -57,6 +57,10 @@
     });
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 - (void)orientationChanged:(NSNotification *)notification {
     self.tableView.frame = CGRectMake(
         0,
@@ -102,7 +106,8 @@
 }
 
 - (void)presentVideoPlayer:(NSString *)movieUUID currentTime:(Float64)currentTime {
-    NSString *movieURLWithString = [NSString stringWithFormat:@"%@/movies/%@/media", [Config baseURL], movieUUID];
+    Config *config = [Config getInstance];
+    NSString *movieURLWithString = [NSString stringWithFormat:@"%@/movies/%@/media", config.baseURL, movieUUID];
     NSURL *url = [NSURL URLWithString:movieURLWithString];
     NSMutableDictionary *headers = [NSMutableDictionary dictionary];
     [headers
@@ -162,6 +167,8 @@
         ];
     }
     
+    Config *config = [Config getInstance];
+    
     cell.textLabel.text = [episode valueForKey:@"title"];
     cell.textLabel.font = [UIFont systemFontOfSize:24 weight:16];
     cell.detailTextLabel.text = [episode valueForKey:@"description"];
@@ -171,7 +178,7 @@
         imageWithData:[[NSData alloc]
             initWithContentsOfURL:[NSURL
                 URLWithString:[NSString
-                    stringWithFormat:@"%@/movies/%@/poster", [Config baseURL], [episode valueForKey:@"uuid"]]
+                    stringWithFormat:@"%@/movies/%@/poster", config.baseURL, [episode valueForKey:@"uuid"]]
             ]
         ]
     ];

@@ -16,6 +16,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.navigationItem.title = @"My Movies";
+    self.navigationController.navigationBar.backgroundColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.prefersLargeTitles = YES;
+    self.navigationController.navigationBar.preservesSuperviewLayoutMargins = YES;
+    
     self.page = 1;
     
     self.loadingSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -78,6 +83,14 @@
     });
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
 - (void)orientationChanged:(NSNotification *)notification {
     self.tableView.frame = CGRectMake(
         0,
@@ -123,7 +136,8 @@
 }
 
 - (void)presentVideoPlayer:(NSString *)movieUUID currentTime:(Float64)currentTime {
-    NSString *movieURLWithString = [NSString stringWithFormat:@"%@/movies/%@/media", [Config baseURL], movieUUID];
+    Config *config = [Config getInstance];
+    NSString *movieURLWithString = [NSString stringWithFormat:@"%@/movies/%@/media", config.baseURL, movieUUID];
     NSURL *url = [NSURL URLWithString:movieURLWithString];
     NSMutableDictionary *headers = [NSMutableDictionary dictionary];
     [headers
@@ -172,6 +186,8 @@
         ];
     }
     
+    Config *config = [Config getInstance];
+    
     cell.textLabel.text = [movie valueForKey:@"title"];
     cell.textLabel.font = [UIFont systemFontOfSize:24 weight:16];
     cell.detailTextLabel.text = [movie valueForKey:@"description"];
@@ -181,7 +197,7 @@
         imageWithData:[[NSData alloc]
             initWithContentsOfURL:[NSURL
                 URLWithString:[NSString
-                    stringWithFormat:@"%@/movies/%@/poster", [Config baseURL], [movie valueForKey:@"uuid"]]
+                    stringWithFormat:@"%@/movies/%@/poster", config.baseURL, [movie valueForKey:@"uuid"]]
             ]
         ]
     ];
@@ -229,7 +245,7 @@
     if (movieModel.isMovieSeries) {
         SeriesViewController *seriesVC = [SeriesViewController new];
         seriesVC.movieModel = movieModel;
-        [self presentViewController:seriesVC animated:YES completion:nil];
+        [self.navigationController pushViewController:seriesVC animated:YES];
     } else {
         [PlaybackService
             getPlaybackWithMovieUUID:movieModel.movieUUID

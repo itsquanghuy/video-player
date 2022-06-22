@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--List View Controller-->
+        <!--Root View Controller-->
         <scene sceneID="gCL-DL-ai7">
             <objects>
-                <viewController id="bvw-Gw-JIj" customClass="ListViewController" sceneMemberID="viewController">
+                <viewController id="bvw-Gw-JIj" customClass="RootViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="apo-9v-Fp6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -11,8 +11,9 @@
 
 @interface Config : NSObject
 
-+ (NSString *)baseURL;
-+ (NSString *)moviePlaybacksStoreKey;
+@property (strong, nonatomic) NSString *baseURL;
+
++ getInstance;
 
 @end
 

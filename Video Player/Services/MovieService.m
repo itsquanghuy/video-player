@@ -11,8 +11,9 @@
 @implementation MovieService
 
 + (void)getMovieListByPage:(NSInteger)page completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
+    Config *config = [Config getInstance];
     [Http
-        request:[NSString stringWithFormat:@"%@/movies?page=%ld", [Config baseURL], page]
+        request:[NSString stringWithFormat:@"%@/movies?page=%ld", config.baseURL, page]
         method:@"GET"
         headers:[[NSMutableDictionary alloc]
             initWithDictionary:@{
@@ -30,8 +31,9 @@
 }
 
 + (void)getMovieSeries:(NSString * _Nonnull)movieUUID completionHandler:(void (^)(NSMutableDictionary * _Nonnull))completionHandler errorHandler:(void (^)(NSError * _Nullable))errorHandler {
+    Config *config = [Config getInstance];
     [Http
-        request:[NSString stringWithFormat:@"%@/movies/%@/episodes", [Config baseURL], movieUUID]
+        request:[NSString stringWithFormat:@"%@/movies/%@/episodes", config.baseURL, movieUUID]
         method:@"GET"
         headers:[[NSMutableDictionary alloc]
             initWithDictionary:@{

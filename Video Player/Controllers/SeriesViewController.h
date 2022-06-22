@@ -7,6 +7,7 @@
 
 #import <UIKit/UIKit.h>
 #import "VideoPlayerViewController.h"
+#import "Config.h"
 #import "MovieService.h"
 #import "PlaybackService.h"
 #import "MovieModel.h"

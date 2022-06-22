@@ -10,12 +10,20 @@
 
 @implementation Config
 
-+ (NSString *)baseURL {
-    return @"http://172.20.10.5:5000";
+static Config *instance;
+
++ (id)getInstance {
+    if (!instance) {
+        instance = [[Config alloc] init];
+    }
+    return instance;
 }
 
-+ (NSString *)moviePlaybacksStoreKey {
-    return @"moviePlaybacks";
+- (id)init {
+    if (!instance) {
+        instance = [super init];
+    }
+    return instance;
 }
 
 @end
