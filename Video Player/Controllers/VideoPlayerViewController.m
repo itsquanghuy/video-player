@@ -25,28 +25,36 @@
     ];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    self.playbackModel = [PlaybackModel getInstance];
+    self.playbackModel.isEpisode = self.isMovieSeries;
+    self.playbackModel.uuid = self.movieUUID;
+}
+
 - (void)savePlaybackCurrentTime {
-    if (self.isMovieSeries) {
-        [PlaybackService
-            updatePlaybackWithEpisodeUUID:self.movieUUID
-            currentTime:[NSNumber numberWithInt:CMTimeGetSeconds([self.player currentTime])]
-            completionHandler:nil
-            errorHandler:nil
-        ];
-    } else {
-        [PlaybackService
-            updatePlaybackWithMovieUUID:self.movieUUID
-            currentTime:[NSNumber numberWithInt:CMTimeGetSeconds([self.player currentTime])]
-            completionHandler:nil
-            errorHandler:nil
-        ];
-    }
+    self.playbackModel.currentTime = CMTimeGetSeconds([self.player currentTime]);
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     [self.timer invalidate];
+    
+    if (self.isMovieSeries) {
+        [PlaybackService
+            updatePlaybackWithEpisodeUUID:self.playbackModel.uuid
+            currentTime:[NSNumber numberWithInt:self.playbackModel.currentTime]
+            completionHandler:nil
+            errorHandler:nil
+        ];
+    } else {
+        [PlaybackService
+            updatePlaybackWithMovieUUID:self.playbackModel.uuid
+            currentTime:[NSNumber numberWithInt:self.playbackModel.currentTime]
+            completionHandler:nil
+            errorHandler:nil
+        ];
+    }
 }
 
 @end

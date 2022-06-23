@@ -7,6 +7,8 @@
 
 #import <UIKit/UIKit.h>
 #import "Config.h"
+#import "PlaybackService.h"
+#import "PlaybackModel.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 

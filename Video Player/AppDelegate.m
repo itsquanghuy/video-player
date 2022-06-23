@@ -17,6 +17,29 @@
     return YES;
 }
 
+- (void)applicationWillResignActive:(UIApplication *)application {
+    PlaybackModel *playbackModel = [PlaybackModel getInstance];
+    
+    if (playbackModel.uuid != nil) {
+        NSLog(@"Fuck");
+        if (playbackModel.isEpisode) {
+            [PlaybackService
+                updatePlaybackWithEpisodeUUID:playbackModel.uuid
+                currentTime:[NSNumber numberWithInt:playbackModel.currentTime]
+                completionHandler:nil
+                errorHandler:nil
+            ];
+        } else {
+            [PlaybackService
+                updatePlaybackWithMovieUUID:playbackModel.uuid
+                currentTime:[NSNumber numberWithInt:playbackModel.currentTime]
+                completionHandler:nil
+                errorHandler:nil
+            ];
+        }
+    }
+}
+
 #pragma mark - UISceneSession lifecycle
 
 

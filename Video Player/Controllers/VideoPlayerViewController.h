@@ -8,6 +8,7 @@
 #import <AVKit/AVKit.h>
 #import "Http.h"
 #import "PlaybackService.h"
+#import "PLaybackModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString * movieUUID;
 @property (strong) NSTimer *timer;
 @property (nonatomic, assign) BOOL isMovieSeries;
+@property (nonatomic, strong) PlaybackModel *playbackModel;
 
 @end
 
