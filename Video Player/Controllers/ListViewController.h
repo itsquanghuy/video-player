@@ -28,6 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger page;
 @property (nonatomic, assign) NSInteger itemsPerPage;
 @property (nonatomic, assign) NSInteger totalItems;
+@property (nonatomic, strong) NSCache<NSNumber *, UIImage *> *posterCache;
 
 @end
 

@@ -21,6 +21,9 @@
     self.navigationController.navigationBar.prefersLargeTitles = YES;
     self.navigationController.navigationBar.preservesSuperviewLayoutMargins = YES;
     
+    self.posterCache = [[NSCache alloc] init];
+    self.posterCache.countLimit = 25;
+    
     self.page = 1;
     
     self.loadingSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -178,6 +181,14 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
     NSMutableDictionary *movie = self.movies[indexPath.row];
+    MovieModel *movieModel = [[MovieModel alloc]
+        initWithMovieId:[[movie valueForKey:@"id"] longValue]
+        title:[movie valueForKey:@"title"]
+        description:[movie valueForKey:@"description"]
+        uuid:[movie valueForKey:@"uuid"]
+        releaseYear:[[movie valueForKey:@"releaseYear"] longValue]
+        isMovieSeries:[[movie valueForKey:@"is_a_series"] boolValue]
+    ];
     
     if (cell == nil) {
         cell = [[UITableViewCell alloc]
@@ -188,19 +199,28 @@
     
     Config *config = [Config getInstance];
     
-    cell.textLabel.text = [movie valueForKey:@"title"];
+    cell.textLabel.text = movieModel.movieTitle;
     cell.textLabel.font = [UIFont systemFontOfSize:24 weight:16];
     cell.detailTextLabel.text = [movie valueForKey:@"description"];
     cell.detailTextLabel.textColor = [UIColor lightGrayColor];
     cell.detailTextLabel.numberOfLines = 3;
-    cell.imageView.image = [UIImage
-        imageWithData:[[NSData alloc]
-            initWithContentsOfURL:[NSURL
-                URLWithString:[NSString
-                    stringWithFormat:@"%@/movies/%@/poster", config.baseURL, [movie valueForKey:@"uuid"]]
+    
+    NSNumber *posterCacheKey = [NSNumber numberWithLong:movieModel.movieId];
+    UIImage *cachedPoster = [self.posterCache objectForKey:posterCacheKey];
+    if (cachedPoster == nil) {
+        UIImage *poster = [UIImage
+            imageWithData:[[NSData alloc]
+                initWithContentsOfURL:[NSURL
+                    URLWithString:[NSString
+                        stringWithFormat:@"%@/movies/%@/poster", config.baseURL, [movie valueForKey:@"uuid"]]
+                ]
             ]
-        ]
-    ];
+        ];
+        cell.imageView.image = poster;
+        [self.posterCache setObject:poster forKey:posterCacheKey];
+    } else {
+        cell.imageView.image = cachedPoster;
+    }
     
     return cell;
 }
